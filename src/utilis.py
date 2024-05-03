@@ -32,3 +32,16 @@ def format_card(card: str):
         number_secret = f"{card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
     return f"{card_name} {number_secret}"
 
+def get_data_format(data):
+    operations = []
+    for operation in data:
+        formatted_operation = {}
+        formatted_operation["date"] = format_date(operation["date"])
+        if "from" in operation:
+            formatted_operation["from"] = operation["from"]
+            # Другие действия для операций со значением "from"
+        else:
+            # Действия для остальных операций
+            pass
+        operations.append(formatted_operation)
+    return operations
