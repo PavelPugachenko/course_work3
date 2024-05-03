@@ -21,8 +21,14 @@ def format_date(date: str):
     year, month, day = date_format.split("-")
     return f"{day}.{month}.{year}"
 
+def format_card(card: str):
+    "скрытие счетов"
+    card = card.split()
+    card_number = card.pop()
+    card_name = " ".join(card)
+    if card_name.lower() == "счет":
+        number_secret = "**" + card_number[-4:]
+    else:
+        number_secret = f"{card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
+    return f"{card_name} {number_secret}"
 
-data = get_data()
-filtered_data = filter_data(data)
-print(format_date("2019-08-26T10:50:58.294041"))
-#print(last_five_operations(filtered_data))
