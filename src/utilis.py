@@ -1,8 +1,9 @@
 import json
+from datetime import datetime
 
 def get_data():
     """Чтение данных"""
-    with open("../data/operations.json", encoding="utf-8") as f:
+    with open("./data/operations.json", encoding="utf-8") as f:
         return json.load(f)
 
 def filter_data(data):
@@ -14,6 +15,7 @@ def last_five_operations(data):
     """Сортировка и вывод последних 5 операций"""
     sorted_operations = sorted(data, key=lambda x: x["date"], reverse=True)
     return sorted_operations[:5]
+
 
 def format_date(date: str):
     """Возвращает строку даты в формате гггг-мм-дд"""
@@ -37,11 +39,33 @@ def get_data_format(data):
     for operation in data:
         formatted_operation = {}
         formatted_operation["date"] = format_date(operation["date"])
+        formatted_operation["description"] = operation["description"]
+        formatted_operation["amount"] = operation["operationAmount"]["amount"]
+        formatted_operation["name"] = operation["operationAmount"]["currency"]["name"]
         if "from" in operation:
-            formatted_operation["from"] = operation["from"]
-            # Другие действия для операций со значением "from"
+            formatted_operation["from"] = format_card(operation["from"])
         else:
-            # Действия для остальных операций
-            pass
+            formatted_operation["from"] = ""
+        if "to" in operation:
+            formatted_operation["to"] = format_card(operation["to"])
+        else:
+            formatted_operation["to"] = ""
+
         operations.append(formatted_operation)
     return operations
+
+def print_res(data):
+    new_format = []
+
+    for obj in data:
+        new_str = f"{obj['date']} {obj['description']}\n"
+        if obj['from']:
+            new_str += f"{obj['from']} -> {obj['to']}\n"
+        else:
+            new_str += f"{obj['to']}\n"
+        new_str += f"{obj['amount']} {obj['name']}"
+        new_format.append(new_str)
+
+    for line in new_format:
+        print(line)
+        print("\n")
