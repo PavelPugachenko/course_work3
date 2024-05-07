@@ -3,7 +3,7 @@ from datetime import datetime
 
 def get_data():
     """Чтение данных"""
-    with open("../data/operations.json", encoding="utf-8") as f:
+    with open("./data/operations.json", encoding="utf-8") as f:
         return json.load(f)
 
 def filter_data(data):
